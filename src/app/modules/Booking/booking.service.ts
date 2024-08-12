@@ -53,10 +53,50 @@ const getAllBookingsByUser = async (token: string) => {
   return result;
 };
 
+// const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
+//   const { name, ...remainingFacultyData } = payload;
+
+//   const modifiedUpdatedData: Record<string, unknown> = {
+//     ...remainingFacultyData,
+//   };
+
+//   if (name && Object.keys(name).length) {
+//     for (const [key, value] of Object.entries(name)) {
+//       modifiedUpdatedData[`name.${key}`] = value;
+//     }
+//   }
+
+//   const result = await Faculty.findByIdAndUpdate(id, modifiedUpdatedData, {
+//     new: true,
+//     runValidators: true,
+//   });
+//   return result;
+// };
+
+const deleteBookingByUser = async (id: string, token: string) => {
+  const decoded = jwt.verify(
+    token,
+    config.jwt_access_secret as string,
+  ) as JwtPayload;
+
+  const booking = await Booking.findById(id);
+  const user = await User.findById(booking?.user);
+  if (decoded.email === user?.email) {
+    const result = await Booking.findByIdAndUpdate(
+      id,
+      { isBooked: 'canceled' },
+      { new: true },
+    );
+    return result;
+  } else {
+    throw new AppError(httpStatus.NOT_FOUND, 'You Did Not Book That!');
+  }
+};
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingsFromDB,
   getAllBookingsByUser,
+  deleteBookingByUser,
   //   updateFaciityIntoDB,
   //   deleteFacilityFromDB,
 };

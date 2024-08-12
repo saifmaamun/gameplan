@@ -6,11 +6,7 @@ import { BookingControllers } from './booking.controller';
 
 const router = express.Router();
 
-// router.delete(
-//   '/:id',
-//   auth(USER_ROLE.admin),
-//   FacilityControllers.deleteFacility,
-// );
+router.delete('/:id', auth(USER_ROLE.user), BookingControllers.deleteBooking);
 
 // router.patch(
 //   '/:id',

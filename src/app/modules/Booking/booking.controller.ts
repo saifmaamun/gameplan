@@ -44,9 +44,24 @@ const getUserBookings = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const deleteBooking = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { authorization } = req.headers;
+  const result = await BookingServices.deleteBookingByUser(
+    id,
+    authorization as string,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Bookings cancelled successfully',
+    data: result,
+  });
+});
 export const BookingControllers = {
   createBooking,
   getAllBookings,
   getUserBookings,
-  //   deleteFacility,
+  deleteBooking,
 };
