@@ -8,6 +8,7 @@ import httpStatus from 'http-status';
 import { TUser } from '../user/user.interface';
 import { Types } from 'mongoose';
 import { Booking } from './booking.model';
+import { convertTimeToHours } from './booking.utils';
 
 const createBookingIntoDB = async (token: string, booking: TBooking) => {
   const facility = await Facility.findByIdAndUpdate(booking.facility);
@@ -27,6 +28,10 @@ const createBookingIntoDB = async (token: string, booking: TBooking) => {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }
   booking.user = (user as TUser & { _id: Types.ObjectId })._id;
+  booking.payableAmount =
+    (convertTimeToHours(booking.endTime) -
+      convertTimeToHours(booking.startTime)) *
+    facility.pricePerHour;
   booking.isBooked = 'confirmed';
 
   const result = await Booking.create(booking);
