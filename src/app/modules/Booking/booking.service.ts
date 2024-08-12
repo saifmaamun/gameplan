@@ -48,30 +48,11 @@ const getAllBookingsByUser = async (token: string) => {
   const user = await User.isUserExistsByEmail(decoded.email);
   const result = await Booking.find({
     user: { $eq: (user as TUser & { _id: Types.ObjectId })._id },
+    isBooked: { $ne: 'canceled' },
   });
 
   return result;
 };
-
-// const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
-//   const { name, ...remainingFacultyData } = payload;
-
-//   const modifiedUpdatedData: Record<string, unknown> = {
-//     ...remainingFacultyData,
-//   };
-
-//   if (name && Object.keys(name).length) {
-//     for (const [key, value] of Object.entries(name)) {
-//       modifiedUpdatedData[`name.${key}`] = value;
-//     }
-//   }
-
-//   const result = await Faculty.findByIdAndUpdate(id, modifiedUpdatedData, {
-//     new: true,
-//     runValidators: true,
-//   });
-//   return result;
-// };
 
 const deleteBookingByUser = async (id: string, token: string) => {
   const decoded = jwt.verify(
@@ -97,6 +78,4 @@ export const BookingServices = {
   getAllBookingsFromDB,
   getAllBookingsByUser,
   deleteBookingByUser,
-  //   updateFaciityIntoDB,
-  //   deleteFacilityFromDB,
 };
