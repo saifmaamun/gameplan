@@ -1,12 +1,25 @@
 import httpStatus from 'http-status';
-import config from '../../config';
+
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.service';
+import config from '../../config';
 
+const signUp = catchAsync(async (req, res) => {
+  const userData = req.body;
+
+  const result = await AuthServices.createUserIntoDB(userData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User registered successfully',
+    data: result,
+  });
+});
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
-  const { refreshToken, accessToken, needsPasswordChange } = result;
+  const { refreshToken, accessToken, userWithoutPassword } = result;
 
   res.cookie('refreshToken', refreshToken, {
     secure: config.NODE_ENV === 'production',
@@ -17,22 +30,10 @@ const loginUser = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User is logged in succesfully!',
+    token: accessToken,
     data: {
-      accessToken,
-      needsPasswordChange,
+      userWithoutPassword,
     },
-  });
-});
-
-const changePassword = catchAsync(async (req, res) => {
-  const { ...passwordData } = req.body;
-
-  const result = await AuthServices.changePassword(req.user, passwordData);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Password is updated succesfully!',
-    data: result,
   });
 });
 
@@ -49,7 +50,7 @@ const refreshToken = catchAsync(async (req, res) => {
 });
 
 export const AuthControllers = {
+  signUp,
   loginUser,
-  changePassword,
   refreshToken,
 };
