@@ -27,13 +27,19 @@ const createBookingIntoDB = async (token: string, booking: TBooking) => {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }
   booking.user = (user as TUser & { _id: Types.ObjectId })._id;
+  booking.isBooked = 'confirmed';
 
   const result = await Booking.create(booking);
   return result;
 };
+
+const getAllBookingsFromDB = async () => {
+  const result = await Booking.find();
+  return result;
+};
 export const BookingServices = {
   createBookingIntoDB,
-  //   getAllFaciitiesFromDB,
+  getAllBookingsFromDB,
   //   updateFaciityIntoDB,
   //   deleteFacilityFromDB,
 };

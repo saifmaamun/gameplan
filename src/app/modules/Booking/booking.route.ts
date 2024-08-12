@@ -19,7 +19,7 @@ const router = express.Router();
 //   FacilityControllers.updateFacility,
 // );
 
-// router.get('/', FacilityControllers.getAllFaculties);
+router.get('/', auth(USER_ROLE.admin), BookingControllers.getAllFaculties);
 
 router.post(
   '/',
