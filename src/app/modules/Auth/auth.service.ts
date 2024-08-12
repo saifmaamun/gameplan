@@ -15,7 +15,6 @@ const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
   const user = await User.isUserExistsByEmail(payload.email);
   const userWithoutPassword = await User.findOne({ email: user.email });
-  console.log(userWithoutPassword);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User doesn't exist!");

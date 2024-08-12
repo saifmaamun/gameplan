@@ -19,7 +19,8 @@ const router = express.Router();
 //   FacilityControllers.updateFacility,
 // );
 
-router.get('/', auth(USER_ROLE.admin), BookingControllers.getAllFaculties);
+router.get('/', auth(USER_ROLE.admin), BookingControllers.getAllBookings);
+router.get('/user', auth(USER_ROLE.user), BookingControllers.getUserBookings);
 
 router.post(
   '/',

@@ -30,9 +30,23 @@ const getAllBookings = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+const getUserBookings = catchAsync(async (req, res) => {
+  const { authorization } = req.headers;
+  const result = await BookingServices.getAllBookingsByUser(
+    authorization as string,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Bookings retrieved successfully',
+    data: result,
+  });
+});
 export const BookingControllers = {
   createBooking,
-  getAllFaculties: getAllBookings,
-  //   updateFacility,
+  getAllBookings,
+  getUserBookings,
   //   deleteFacility,
 };

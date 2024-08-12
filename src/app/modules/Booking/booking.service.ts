@@ -37,9 +37,26 @@ const getAllBookingsFromDB = async () => {
   const result = await Booking.find();
   return result;
 };
+
+const getAllBookingsByUser = async (token: string) => {
+  const decoded = jwt.verify(
+    token,
+    config.jwt_access_secret as string,
+  ) as JwtPayload;
+
+  // checking if the user is exist
+  const user = await User.isUserExistsByEmail(decoded.email);
+  const result = await Booking.find({
+    user: { $eq: (user as TUser & { _id: Types.ObjectId })._id },
+  });
+
+  return result;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingsFromDB,
+  getAllBookingsByUser,
   //   updateFaciityIntoDB,
   //   deleteFacilityFromDB,
 };
