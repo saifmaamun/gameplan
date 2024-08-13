@@ -10,6 +10,7 @@ import { Types } from 'mongoose';
 import { Booking } from './booking.model';
 import { convertTimeToHours, getAvailableTimeSlots } from './booking.utils';
 
+// create a new booking
 const createBookingIntoDB = async (token: string, booking: TBooking) => {
   const facility = await Facility.findByIdAndUpdate(booking.facility);
   if (!facility) {
@@ -38,15 +39,16 @@ const createBookingIntoDB = async (token: string, booking: TBooking) => {
   return result;
 };
 
+// get all the bookings by admin
 const getAllBookingsFromDB = async () => {
   const result = await Booking.find();
-  if (result.length == 0) {
-    throw new AppError(httpStatus.NOT_FOUND, 'No Data Found');
-  }
+
   return result;
 };
 
+// get user's own booking
 const getAllBookingsByUser = async (token: string) => {
+  // decoding to get the user info
   const decoded = jwt.verify(
     token,
     config.jwt_access_secret as string,
@@ -62,7 +64,9 @@ const getAllBookingsByUser = async (token: string) => {
   return result;
 };
 
+//cancel booking by user
 const deleteBookingByUser = async (id: string, token: string) => {
+  // decoding to get the user info
   const decoded = jwt.verify(
     token,
     config.jwt_access_secret as string,
@@ -82,6 +86,7 @@ const deleteBookingByUser = async (id: string, token: string) => {
   }
 };
 
+// check booking time avaibility
 const checkAvailableSlots = async (date: Date): Promise<TTimeSlot[]> => {
   // Normalize the date to ignore time part
   const startOfDay = new Date(date.setHours(0, 0, 0, 0));
@@ -108,9 +113,6 @@ const checkAvailableSlots = async (date: Date): Promise<TTimeSlot[]> => {
   // Calculate available time slots
   const result = getAvailableTimeSlots(bookedSlots, openingTime, closingTime);
 
-  if (!result) {
-    throw new AppError(httpStatus.NOT_FOUND, 'No Available slot!');
-  }
   return result;
 };
 

@@ -3,7 +3,9 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { BookingServices } from './booking.service';
 
+// create Booking
 const createBooking = catchAsync(async (req, res) => {
+  //
   const { authorization } = req.headers;
   const bookingData = req.body;
 
@@ -20,9 +22,19 @@ const createBooking = catchAsync(async (req, res) => {
   });
 });
 
+// see all Booking Admin
 const getAllBookings = catchAsync(async (req, res) => {
   const result = await BookingServices.getAllBookingsFromDB();
 
+  // if no data found
+  if (result.length == 0) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: 'No Data Found',
+      data: [],
+    });
+  }
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -31,12 +43,23 @@ const getAllBookings = catchAsync(async (req, res) => {
   });
 });
 
+//  see all booking by  user's own
 const getUserBookings = catchAsync(async (req, res) => {
   const { authorization } = req.headers;
   const result = await BookingServices.getAllBookingsByUser(
     authorization as string,
   );
 
+  // if no data found
+  if (result.length == 0) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: 'No Data Found',
+      data: [],
+    });
+  }
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -44,6 +67,8 @@ const getUserBookings = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+// cancel user's own booking
 const deleteBooking = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { authorization } = req.headers;
@@ -60,11 +85,22 @@ const deleteBooking = catchAsync(async (req, res) => {
   });
 });
 
+// check availability for booking
 const checkAvailability = catchAsync(async (req, res) => {
   const { date } = req.query;
   const queryDate = date ? new Date(date as string) : new Date();
 
   const result = await BookingServices.checkAvailableSlots(queryDate);
+
+  // if no data found
+  if (result.length == 0) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: 'No Available Slot Found',
+      data: [],
+    });
+  }
 
   res.json({
     success: true,

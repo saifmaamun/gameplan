@@ -1,10 +1,12 @@
 import { TTimeSlot } from './booking.interface';
 
+// converting given time into number
 export const convertTimeToHours = (time: string): number => {
   const [hours, minutes] = time.split(':').map(Number);
   return hours + minutes / 60;
 };
 
+// retriving the time slots
 export const getAvailableTimeSlots = (
   bookedSlots: TTimeSlot[],
   openingTime = '08:00',
