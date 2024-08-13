@@ -7,7 +7,7 @@ export interface TBooking {
   user?: Types.ObjectId;
   facility: Types.ObjectId;
   payableAmount?: number;
-  isBooked: 'confirmed' | 'unconfirmed' | 'canceled';
+  isBooked?: 'confirmed' | 'unconfirmed' | 'canceled';
 }
 export interface TTimeSlot {
   startTime: string;

@@ -27,13 +27,11 @@ const BookingSchema = new Schema<TBooking>({
   },
   payableAmount: {
     type: Number,
-    required: true,
   },
   isBooked: {
     type: String,
     enum: ['confirmed', 'unconfirmed', 'canceled'],
     default: 'unconfirmed',
-    required: true,
   },
 });
 

@@ -1,8 +1,9 @@
 import express from 'express';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../user/user.constant';
-// import validateRequest from '../../middlewares/validateRequest';
 import { BookingControllers } from './booking.controller';
+import { createBookingValidationSchema } from './booking.validations';
+import validateRequest from '../../middlewares/validateRequest';
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/user', auth(USER_ROLE.user), BookingControllers.getUserBookings);
 router.post(
   '/',
   auth(USER_ROLE.user),
-  //   validateRequest(createFacilityValidationSchema),
+  validateRequest(createBookingValidationSchema),
   BookingControllers.createBooking,
 );
 
