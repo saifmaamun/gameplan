@@ -23,3 +23,7 @@ export interface TBooking {
 //     jwtIssuedTimestamp: number,
 //   ): boolean;
 // }
+export interface TTimeSlot {
+  startTime: string;
+  endTime: string;
+}

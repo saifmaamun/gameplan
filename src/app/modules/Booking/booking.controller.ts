@@ -59,9 +59,27 @@ const deleteBooking = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+// //////////////////////////////////////////////////////////////////
+const checkAvailability = catchAsync(async (req, res) => {
+  const { date } = req.query;
+  const queryDate = date ? new Date(date as string) : new Date();
+
+  const result = await BookingServices.checkAvailableSlots(queryDate);
+
+  res.json({
+    success: true,
+    statusCode: 200,
+    message: 'Availability checked successfully.',
+    data: result,
+  });
+});
+// //////////////////////////////////////////////////////////////////
+
 export const BookingControllers = {
   createBooking,
   getAllBookings,
   getUserBookings,
   deleteBooking,
+  checkAvailability,
 };
