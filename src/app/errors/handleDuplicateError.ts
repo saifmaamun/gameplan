@@ -11,7 +11,7 @@ const handleDuplicateError = (err: any): TGenericErrorResponse => {
   const errorSources: TErrorSources = [
     {
       path: '',
-      message: `${extractedMessage} is already exists`,
+      message: `E11000 duplicate key error collection: gameplan.users index: email_1 dup key: { email: ${extractedMessage}}`,
     },
   ];
 
@@ -19,7 +19,7 @@ const handleDuplicateError = (err: any): TGenericErrorResponse => {
 
   return {
     statusCode,
-    message: 'Invalid ID',
+    message: `E11000 duplicate key error collection: gameplan.users index: email_1 dup key: { email: ${extractedMessage}}`,
     errorSources,
   };
 };

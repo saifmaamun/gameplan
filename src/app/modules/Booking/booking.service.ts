@@ -40,6 +40,9 @@ const createBookingIntoDB = async (token: string, booking: TBooking) => {
 
 const getAllBookingsFromDB = async () => {
   const result = await Booking.find();
+  if (result.length == 0) {
+    throw new AppError(httpStatus.NOT_FOUND, 'No Data Found');
+  }
   return result;
 };
 

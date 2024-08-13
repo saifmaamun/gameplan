@@ -7,26 +7,28 @@ import config from '../../config';
 import { createToken } from './auth.utils';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
+// signup
 const createUserIntoDB = async (user: TUser) => {
   const result = await User.create(user);
   return result;
 };
+
+// login
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
   const user = await User.isUserExistsByEmail(payload.email);
-  const userWithoutPassword = await User.findOne({ email: user.email });
-
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User doesn't exist!");
   }
 
-  //checking if the password is correct
+  //save data without password
+  const userWithoutPassword = await User.findOne({ email: user.email });
 
+  //checking if the password is correct
   if (!(await User.isPasswordMatched(payload?.password, user?.password)))
     throw new AppError(httpStatus.FORBIDDEN, 'Wrong Password');
 
   //create token and sent to the  client
-
   const jwtPayload = {
     email: user.email,
     role: user.role,
@@ -51,6 +53,7 @@ const loginUser = async (payload: TLoginUser) => {
   };
 };
 
+// refresh token
 const refreshToken = async (token: string) => {
   // checking if the given token is valid
   const decoded = jwt.verify(

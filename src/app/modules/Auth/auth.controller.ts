@@ -5,6 +5,7 @@ import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.service';
 import config from '../../config';
 
+// signup
 const signUp = catchAsync(async (req, res) => {
   const userData = req.body;
 
@@ -17,6 +18,8 @@ const signUp = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+// login
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
   const { refreshToken, accessToken, userWithoutPassword } = result;
@@ -37,6 +40,7 @@ const loginUser = catchAsync(async (req, res) => {
   });
 });
 
+// refreshToken
 const refreshToken = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies;
   const result = await AuthServices.refreshToken(refreshToken);
