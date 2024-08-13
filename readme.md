@@ -8,10 +8,13 @@
 
 ## Features
 
-    * Authentication & Authorization
+### Authentication & Authorization
+
         * Peopele can Signin  and Login using email and password (and some other info as well)
         * Based on their role (user or admin) they have their own previlages.
-    * Facilities
+
+### Facilities
+
         * Admins can create facilities.
         * Admins can update facility informations.
         * Admins can delete facility.
