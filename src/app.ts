@@ -21,6 +21,8 @@ app.use('/api', router);
 app.get('/', (req: Request, res) => {
   res.send('Hello From Assignment3');
 });
+
+// availibility checking routes
 app.get('/api/check-availability', BookingControllers.checkAvailability);
 
 app.use(globalErrorHandler);

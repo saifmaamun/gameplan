@@ -7,14 +7,17 @@ import { BookingRoutes } from '../modules/Booking/booking.route';
 const router = Router();
 
 const moduleRoutes = [
+  // facility routes
   {
     path: '/facility',
     route: FacilityRoutes,
   },
+  // bookings routes
   {
     path: '/bookings',
     route: BookingRoutes,
   },
+  // authentication routes
   {
     path: '/auth',
     route: AuthRoutes,

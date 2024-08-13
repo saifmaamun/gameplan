@@ -1,5 +1,6 @@
 import { Response } from 'express';
 
+// generic response  type
 type TResponse<T> = {
   statusCode: number;
   success: boolean;
@@ -8,6 +9,7 @@ type TResponse<T> = {
   data: T;
 };
 
+// response type
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {
   res.status(data?.statusCode).json({
     success: data.success,
