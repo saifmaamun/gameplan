@@ -41,8 +41,9 @@ const createBookingIntoDB = async (token: string, booking: TBooking) => {
 
 // get all the bookings by admin
 const getAllBookingsFromDB = async () => {
-  const result = await Booking.find().populate('user').populate('facility');
-
+  const result = await Booking.find({ isBooked: { $ne: 'canceled' } })
+    .populate('user')
+    .populate('facility');
   return result;
 };
 

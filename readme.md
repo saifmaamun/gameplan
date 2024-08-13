@@ -1,4 +1,6 @@
-# Game Plan ### (ID: L2B1-0419)
+# Game Plan
+
+### (ID: L2B1-0419)
 
 ## Welcome to our Sports Facility Booking Platform, a web application designed to simplify the process of reserving sports facilities with just a few clicks
 
