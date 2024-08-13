@@ -6,7 +6,7 @@
 
 ## GitHub Repository Links (Server) : [gitLink](https://github.com/saifmaamun/gameplan)
 
-## Features
+## 🔖Features
 
 ### 👩‍⚖️Authentication & Authorization
 
@@ -28,7 +28,7 @@
 
 ### 📃Well commented and documented.
 
-## Technology Used
+## 🛠️Technology Used
 
     * NodeJS
     * ExpressJS
