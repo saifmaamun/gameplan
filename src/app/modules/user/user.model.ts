@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
 import { TUser, UserModel } from './user.interface';
+
+// user Schema
 const userSchema = new Schema<TUser, UserModel>({
   name: {
     type: String,
@@ -35,6 +37,7 @@ const userSchema = new Schema<TUser, UserModel>({
   },
 });
 
+// securing password
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this; // doc
@@ -54,10 +57,12 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
+// static method for checking user exists
 userSchema.statics.isUserExistsByEmail = async function (email: string) {
   return await User.findOne({ email }).select('+password');
 };
 
+// password matching
 userSchema.statics.isPasswordMatched = async function (
   plainTextPassword,
   hashedPassword,
