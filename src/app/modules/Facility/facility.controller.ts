@@ -3,6 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { FacilityServices } from './facility.service';
 
+// creating a new facility
 const createFacility = catchAsync(async (req, res) => {
   const facilityData = req.body;
 
@@ -16,9 +17,19 @@ const createFacility = catchAsync(async (req, res) => {
   });
 });
 
+// getting the facilities
 const getAllFaculties = catchAsync(async (req, res) => {
   const result = await FacilityServices.getAllFaciitiesFromDB();
 
+  // if no data found
+  if (result.length == 0) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: 'No Available Slot Found',
+      data: [],
+    });
+  }
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -27,6 +38,7 @@ const getAllFaculties = catchAsync(async (req, res) => {
   });
 });
 
+// update facility
 const updateFacility = catchAsync(async (req, res) => {
   const { id } = req.params;
 
@@ -40,7 +52,9 @@ const updateFacility = catchAsync(async (req, res) => {
   });
 });
 
+// delete facility
 const deleteFacility = catchAsync(async (req, res) => {
+  // getting the facility by id from params
   const { id } = req.params;
   const result = await FacilityServices.deleteFacilityFromDB(id);
 

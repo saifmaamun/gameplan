@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+// validation for creating
 export const createFacilityValidationSchema = z.object({
   body: z.object({
     name: z.string().trim().min(1, { message: 'Name is required' }),
@@ -14,6 +15,8 @@ export const createFacilityValidationSchema = z.object({
     isDeleted: z.boolean().optional().default(false),
   }),
 });
+
+// validation for updating
 export const updateFacilityValidationSchema = z.object({
   body: z.object({
     name: z.string().trim().min(1).optional(),

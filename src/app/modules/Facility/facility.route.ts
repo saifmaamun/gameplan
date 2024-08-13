@@ -10,12 +10,14 @@ import validateRequest from '../../middlewares/validateRequest';
 
 const router = express.Router();
 
+// delete facility
 router.delete(
   '/:id',
   auth(USER_ROLE.admin),
   FacilityControllers.deleteFacility,
 );
 
+// update facility
 router.patch(
   '/:id',
   auth(USER_ROLE.admin),
@@ -23,8 +25,10 @@ router.patch(
   FacilityControllers.updateFacility,
 );
 
+// get all facility
 router.get('/', FacilityControllers.getAllFaculties);
 
+// create facility
 router.post(
   '/',
   auth(USER_ROLE.admin),
