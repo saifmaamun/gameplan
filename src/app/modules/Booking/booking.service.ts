@@ -41,7 +41,7 @@ const createBookingIntoDB = async (token: string, booking: TBooking) => {
 
 // get all the bookings by admin
 const getAllBookingsFromDB = async () => {
-  const result = await Booking.find();
+  const result = await Booking.find().populate('user').populate('facility');
 
   return result;
 };
@@ -59,7 +59,7 @@ const getAllBookingsByUser = async (token: string) => {
   const result = await Booking.find({
     user: { $eq: (user as TUser & { _id: Types.ObjectId })._id },
     isBooked: { $ne: 'canceled' },
-  });
+  }).populate('facility');
 
   return result;
 };
