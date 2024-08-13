@@ -79,7 +79,6 @@ const deleteBookingByUser = async (id: string, token: string) => {
   }
 };
 
-// //////////////////////////////////////////////////////////////////
 const checkAvailableSlots = async (date: Date): Promise<TTimeSlot[]> => {
   // Normalize the date to ignore time part
   const startOfDay = new Date(date.setHours(0, 0, 0, 0));
@@ -111,7 +110,7 @@ const checkAvailableSlots = async (date: Date): Promise<TTimeSlot[]> => {
   }
   return result;
 };
-// //////////////////////////////////////////////////////////////////
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingsFromDB,

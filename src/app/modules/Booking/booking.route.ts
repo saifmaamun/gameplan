@@ -8,15 +8,7 @@ const router = express.Router();
 
 router.delete('/:id', auth(USER_ROLE.user), BookingControllers.deleteBooking);
 
-// router.patch(
-//   '/:id',
-//   auth(USER_ROLE.admin),
-//   validateRequest(updateFacilityValidationSchema),
-//   FacilityControllers.updateFacility,
-// );
-
 router.get('/', auth(USER_ROLE.admin), BookingControllers.getAllBookings);
-router.get('/check-availability', BookingControllers.checkAvailability);
 router.get('/user', auth(USER_ROLE.user), BookingControllers.getUserBookings);
 
 router.post(

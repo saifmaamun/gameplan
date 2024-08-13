@@ -60,7 +60,6 @@ const deleteBooking = catchAsync(async (req, res) => {
   });
 });
 
-// //////////////////////////////////////////////////////////////////
 const checkAvailability = catchAsync(async (req, res) => {
   const { date } = req.query;
   const queryDate = date ? new Date(date as string) : new Date();
@@ -74,7 +73,6 @@ const checkAvailability = catchAsync(async (req, res) => {
     data: result,
   });
 });
-// //////////////////////////////////////////////////////////////////
 
 export const BookingControllers = {
   createBooking,

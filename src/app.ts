@@ -4,6 +4,8 @@ import express, { Application, Request } from 'express';
 import globalErrorHandler from './app/middlewares/globalErrorhandler';
 import notFound from './app/middlewares/notFound';
 import router from './app/routes';
+import { BookingControllers } from './app/modules/Booking/booking.controller';
+// import { AvailabilityControllers } from './app/modules/Availibility/availibility.controller';
 
 const app: Application = express();
 
@@ -19,6 +21,8 @@ app.use('/api', router);
 app.get('/', (req: Request, res) => {
   res.send('Hello From Assignment3');
 });
+app.get('/api/check-availability', BookingControllers.checkAvailability);
+
 app.use(globalErrorHandler);
 
 //Not Found
