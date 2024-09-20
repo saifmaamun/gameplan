@@ -10,6 +10,12 @@ import validateRequest from '../../middlewares/validateRequest';
 
 const router = express.Router();
 
+// get single facility
+router.get(
+  '/:id',
+
+  FacilityControllers.getSingleFacility,
+);
 // delete facility
 router.delete(
   '/:id',

@@ -12,6 +12,11 @@ const getAllFaciitiesFromDB = async () => {
   const result = await Facility.find({ isDeleted: { $ne: true } });
   return result;
 };
+// getting  facility by ID
+const getSingleFaciitiesById = async (id: string) => {
+  const result = await Facility.findById(id);
+  return result;
+};
 
 // updating the facility
 const updateFaciityIntoDB = async (id: string, payload: Partial<TFacility>) => {
@@ -34,6 +39,7 @@ const deleteFacilityFromDB = async (id: string) => {
 export const FacilityServices = {
   createFaciityIntoDB,
   getAllFaciitiesFromDB,
+  getSingleFaciitiesById,
   updateFaciityIntoDB,
   deleteFacilityFromDB,
 };

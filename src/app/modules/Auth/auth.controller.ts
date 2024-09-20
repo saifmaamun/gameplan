@@ -39,6 +39,27 @@ const loginUser = catchAsync(async (req, res) => {
   });
 });
 
+// get all users
+const getAllUsers = catchAsync(async (req, res) => {
+  const result = await AuthServices.getAllUsersFromDB();
+
+  // if no data found
+  if (result.length == 0) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: 'No Data Found',
+      data: [],
+    });
+  }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Users retrieved successfully',
+    data: result,
+  });
+});
+
 // refreshToken
 const refreshToken = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies;
@@ -55,5 +76,6 @@ const refreshToken = catchAsync(async (req, res) => {
 export const AuthControllers = {
   signUp,
   loginUser,
+  getAllUsers,
   refreshToken,
 };

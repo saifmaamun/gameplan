@@ -1,6 +1,7 @@
 import AppError from '../../errors/AppError';
 import { Facility } from '../Facility/facility.model';
 import { User } from '../user/user.model';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { TBooking, TTimeSlot } from './booking.interface';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
@@ -8,7 +9,13 @@ import httpStatus from 'http-status';
 import { TUser } from '../user/user.interface';
 import { Types } from 'mongoose';
 import { Booking } from './booking.model';
-import { convertTimeToHours, getAvailableTimeSlots } from './booking.utils';
+import { startOfDay, endOfDay } from 'date-fns';
+import {
+  convertTimeToHours,
+  findAvailableSlots,
+  generateTotalTimeSlots,
+  // getAvailableTimeSlots,
+} from './booking.utils';
 
 // create a new booking
 const createBookingIntoDB = async (token: string, booking: TBooking) => {
@@ -88,33 +95,33 @@ const deleteBookingByUser = async (id: string, token: string) => {
 };
 
 // check booking time avaibility
-const checkAvailableSlots = async (date: Date): Promise<TTimeSlot[]> => {
-  // Normalize the date to ignore time part
-  const startOfDay = new Date(date.setHours(0, 0, 0, 0));
-  const endOfDay = new Date(date.setHours(23, 59, 59, 999));
 
-  // Retrieve bookings for the specified date
+const checkAvailableSlots = async (
+  date: string,
+  facilityId: string,
+): Promise<TTimeSlot[]> => {
+  // Validate facility existence
+  const facility = await Facility.findById(facilityId).exec();
+  if (!facility) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Facility not found');
+  }
+
+  // Define the start and end of the day
+  const queryDate = new Date(date);
+  const startOfDayDate = startOfDay(queryDate);
+  const endOfDayDate = endOfDay(queryDate);
+
+  // Retrieve existing bookings for the given date and facility
   const bookings = await Booking.find({
-    date: {
-      $gte: startOfDay,
-      $lt: endOfDay,
-    },
-  }).sort({ startTime: 1 });
+    date: { $gte: startOfDayDate, $lt: endOfDayDate },
+    facility: new Types.ObjectId(facilityId),
+  }).exec();
 
-  // Extract booked time slots
-  const bookedSlots = bookings.map((booking) => ({
-    startTime: booking.startTime,
-    endTime: booking.endTime,
-  }));
+  // Filter out the slots that are already booked
+  const timeSlots: TTimeSlot[] = generateTotalTimeSlots();
+  const availableSlots = findAvailableSlots(timeSlots, bookings);
 
-  // Define facility working hours
-  const openingTime = '08:00';
-  const closingTime = '22:00';
-
-  // Calculate available time slots
-  const result = getAvailableTimeSlots(bookedSlots, openingTime, closingTime);
-
-  return result;
+  return availableSlots;
 };
 
 export const BookingServices = {

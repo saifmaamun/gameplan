@@ -87,10 +87,21 @@ const deleteBooking = catchAsync(async (req, res) => {
 
 // check availability for booking
 const checkAvailability = catchAsync(async (req, res) => {
-  const { date } = req.query;
-  const queryDate = date ? new Date(date as string) : new Date();
+  const { date, facility } = req.query;
 
-  const result = await BookingServices.checkAvailableSlots(queryDate);
+  // Ensure date and facility are provided
+  if (!date || !facility) {
+    return res.status(httpStatus.BAD_REQUEST).json({
+      success: false,
+      statusCode: httpStatus.BAD_REQUEST,
+      message: 'Date and facility are required',
+    });
+  }
+
+  const result = await BookingServices.checkAvailableSlots(
+    date as string,
+    facility as string,
+  );
 
   // if no data found
   if (result.length == 0) {

@@ -53,6 +53,12 @@ const loginUser = async (payload: TLoginUser) => {
   };
 };
 
+// all users
+const getAllUsersFromDB = async () => {
+  const result = await User.find();
+  return result;
+};
+
 // refresh token
 const refreshToken = async (token: string) => {
   // checking if the given token is valid
@@ -89,5 +95,6 @@ const refreshToken = async (token: string) => {
 export const AuthServices = {
   createUserIntoDB,
   loginUser,
+  getAllUsersFromDB,
   refreshToken,
 };
