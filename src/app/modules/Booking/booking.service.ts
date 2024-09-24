@@ -16,6 +16,8 @@ import {
   generateTotalTimeSlots,
   // getAvailableTimeSlots,
 } from './booking.utils';
+import { initiatePayment } from '../Payment/paymentUtils';
+import { v4 as uuidv4 } from 'uuid';
 
 // create a new booking
 const createBookingIntoDB = async (token: string, booking: TBooking) => {
@@ -42,8 +44,23 @@ const createBookingIntoDB = async (token: string, booking: TBooking) => {
     facility.pricePerHour;
   booking.isBooked = 'confirmed';
 
-  const result = await Booking.create(booking);
-  return result;
+  // const result = await Booking.create(booking);
+  await Booking.create(booking);
+  // payment integration
+  const transactionId = uuidv4();
+
+  const paymentData = {
+    transactionId,
+    amount: booking.payableAmount,
+    customerName: user.name,
+    customerEmail: user.email,
+    customerAddress: user.address,
+    customerPhone: user.phone,
+  };
+
+  const paymentSession = await initiatePayment(paymentData);
+
+  return paymentSession;
 };
 
 // get all the bookings by admin
