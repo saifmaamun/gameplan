@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', router);
 
 app.get('/', (req: Request, res) => {
-  res.send('Hello From Assignment3');
+  res.send('Hello From The Oher World!');
 });
 
 // availibility checking routes

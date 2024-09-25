@@ -12,6 +12,11 @@ const facilitySchema = new Schema<TFacility>({
     required: true,
     trim: true,
   },
+  imgUrl: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   pricePerHour: {
     type: Number,
     required: true,
