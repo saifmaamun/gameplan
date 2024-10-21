@@ -59,7 +59,6 @@ const createBookingIntoDB = async (token: string, booking: TBooking) => {
   };
 
   const paymentSession = await initiatePayment(paymentData);
-
   return paymentSession;
 };
 

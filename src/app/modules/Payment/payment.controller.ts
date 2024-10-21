@@ -33,7 +33,7 @@ const confirmationController = catchAsync(async (req, res) => {
     </svg>
     <h1 style="font-size: 28px; font-weight: bold; margin-bottom: 20px;">Payment Successful!</h1>
     <p style="font-size: 16px; margin-bottom: 25px;">Your transaction has been processed successfully.</p>
-    <a href="http://localhost:5173/" class="button-link">
+    <a href="https://game-space-ten.vercel.app/" class="button-link">
       Go back to Home
     </a>
   </div>
@@ -75,7 +75,7 @@ const failuerController = catchAsync(async (req, res) => {
         </svg>
         <h1 style="font-size: 28px; font-weight: bold; margin-bottom: 20px;">Payment Failed!</h1>
         <p style="font-size: 16px; margin-bottom: 25px;">Unfortunately, your transaction could not be processed.</p>
-        <a href="http://localhost:5173/" class="button-link">
+        <a href="https://game-space-ten.vercel.app/" class="button-link">
           Try Again
         </a>
       </div>
@@ -116,7 +116,7 @@ const cancelController = catchAsync(async (req, res) => {
         </svg>
         <h1 style="font-size: 28px; font-weight: bold; margin-bottom: 20px;">Payment Canceled</h1>
         <p style="font-size: 16px; margin-bottom: 25px;">Your payment process has been canceled.</p>
-        <a href="http://localhost:5173/" class="button-link">
+        <a href="https://game-space-ten.vercel.app/" class="button-link">
           Go back to Home
         </a>
       </div>
